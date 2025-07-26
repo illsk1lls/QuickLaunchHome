@@ -1,7 +1,7 @@
 <h1 align="center">QuickLaunch Home</h1>
 
 <p align="center"><img src="https://github.com/illsk1lls/QuickLaunchHome/blob/main/.readme/main.png?raw=true"></p>
-<p align="center"><sup>USAGE: Download the HTML file, put it in a safe location, and set it as your home page.</sup></p><br>
+<p align="center"><sup>USAGE: Download the HTML file, put it in a safe location, double-click it to open it, and copy the file address in the address bar and set it as your home page.</sup></p><br>
 
 <p align="center">This was created with the intention of removing a pain point for users switching from Chrome to Firefox, following manifest v3 enforcement.</p><br><br>
 
