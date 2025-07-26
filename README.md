@@ -8,7 +8,7 @@
 <p align="center">Click the (+) button to add a new shortcut</p>
 <p align="center"><img src="https://github.com/illsk1lls/QuickLaunchHome/blob/main/.readme/additem.png?raw=true"></p><br><br>
 
-<p align="center">Right click the (+) button to Import/Export (backup) or Remove All shorcuts</p>
+<p align="center">Right click the (+) button to Import/Export (backup) or Remove All shortcuts</p>
 <p align="center"><img src="https://github.com/illsk1lls/QuickLaunchHome/blob/main/.readme/rightplus.png?raw=true"></p><br><br>
 
 <p align="center">Click the (...) button when mousing over a shortcut to edit/remove</p>
