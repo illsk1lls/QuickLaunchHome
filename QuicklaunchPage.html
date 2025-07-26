@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>QuickLaunch Home</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+			margin: 0;
+			/* Default light theme */
+			background-color: #f0f0f0;
+			color: #333;
+		}
+		/* Dark theme */
+		@media (prefers-color-scheme: dark) {
+			body {
+				background-color: #202124;
+				color: #e8eaed;
+			}
+			.shortcut img, .add-icon {
+				background-color: #303134;
+			}
+			.dots-btn {
+				color: #e8eaed;
+			}
+			.dropdown-menu {
+				background-color: #303134;
+				border-color: #5f6368;
+				color: #e8eaed;
+			}
+			.dropdown-menu li:hover {
+				background-color: #3c4043;
+			}
+			#add-menu {
+				background-color: #303134;
+				border-color: #5f6368;
+				color: #e8eaed;
+			}
+			#add-menu li:hover {
+				background-color: #3c4043;
+			}
+			dialog {
+				background-color: #303134;
+				color: #e8eaed;
+				border: 1px solid #5f6368;
+			}
+			input {
+				background-color: #202124;
+				color: #e8eaed;
+				border-color: #5f6368;
+			}
+			button[type="submit"] {
+				background-color: #8ab4f8;
+				color: #202124;
+			}
+			button[type="submit"]:hover {
+				background-color: #669df6;
+			}
+			button[type="button"] {
+				background-color: #3c4043;
+				color: #e8eaed;
+			}
+			button[type="button"]:hover {
+				background-color: #5f6368;
+			}
+			#search-input {
+				background-color: #303134;
+				border-color: #5f6368;
+			}
+			#search-btn {
+				background-color: #303134;
+				color: #e8eaed;
+			}
+			#search-btn:hover {
+				background-color: #3c4043;
+			}
+			#provider-btn {
+				background-color: #303134;
+				color: #e8eaed;
+				border-color: #5f6368;
+			}
+			#provider-menu {
+				background-color: #303134;
+				border-color: #5f6368;
+				color: #e8eaed;
+			}
+			#provider-menu li:hover {
+				background-color: #3c4043;
+			}
+			.divider {
+				border-top-color: #5f6368;
+			}
+		}
+		/* Light theme */
+		@media (prefers-color-scheme: light) {
+			body {
+				background-color: #f0f0f0;
+				color: #333;
+			}
+			.shortcut img, .add-icon {
+				background-color: #fff;
+			}
+			.dots-btn {
+				color: #333;
+			}
+			.dropdown-menu {
+				background-color: #fff;
+				border-color: #ccc;
+				color: #333;
+			}
+			.dropdown-menu li:hover {
+				background-color: #f0f0f0;
+			}
+			#add-menu {
+				background-color: #fff;
+				border-color: #ccc;
+				color: #333;
+			}
+			#add-menu li:hover {
+				background-color: #f0f0f0;
+			}
+			dialog {
+				background-color: #fff;
+				color: #333;
+				border: 1px solid #ccc;
+			}
+			input {
+				background-color: #fff;
+				color: #333;
+				border-color: #ccc;
+			}
+			button[type="submit"] {
+				background-color: #4285f4;
+				color: #fff;
+			}
+			button[type="submit"]:hover {
+				background-color: #357ae8;
+			}
+			button[type="button"] {
+				background-color: #f0f0f0;
+				color: #333;
+			}
+			button[type="button"]:hover {
+				background-color: #e0e0e0;
+			}
+			#search-input {
+				background-color: #fff;
+				border-color: #dfe1e5;
+			}
+			#search-btn {
+				background-color: #f8f9fa;
+				color: #3c4043;
+			}
+			#search-btn:hover {
+				background-color: #f0f0f0;
+			}
+			#provider-btn {
+				background-color: #fff;
+				color: #333;
+				border-color: #dfe1e5;
+			}
+			#provider-menu {
+				background-color: #fff;
+				border-color: #dfe1e5;
+				color: #333;
+			}
+			#provider-menu li:hover {
+				background-color: #f0f0f0;
+			}
+			.divider {
+				border-top-color: #ccc;
+			}
+		}
+		.container {
+			width: 100%;
+			text-align: center;
+		}
+		.search-section {
+			margin-bottom: 40px;
+		}
+		#logo {
+			max-width: 272px;
+			height: auto;
+			margin-bottom: 20px;
+		}
+		#search-form {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			gap: 10px;
+		}
+		#search-input {
+			width: 400px;
+			padding: 10px;
+			border: 1px solid;
+			border-radius: 24px;
+			font-size: 16px;
+		}
+		#search-btn {
+			padding: 10px 20px;
+			border: 1px solid transparent;
+			border-radius: 4px;
+			cursor: pointer;
+		}
+		#provider-btn {
+			position: fixed;
+			top: 10px;
+			right: 10px;
+			z-index: 1000;
+			padding: 10px;
+			border: 1px solid;
+			border-radius: 4px;
+			font-size: 14px;
+			cursor: pointer;
+		}
+		#provider-menu {
+			position: fixed;
+			top: 40px;
+			right: 10px;
+			z-index: 1000;
+			border: 1px solid;
+			border-radius: 4px;
+			box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+		}
+		#provider-menu ul {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+		}
+		#provider-menu li {
+			padding: 10px 20px;
+			cursor: pointer;
+		}
+		.shortcuts {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 20px;
+			max-width: 50%;
+			margin: 0 auto;
+			justify-content: center;
+			max-height: calc(100vh - 250px);
+			overflow-y: auto;
+		}
+
+		.shortcut {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			text-decoration: none;
+			color: inherit;
+			position: relative;
+			width: 75px; /* Fixed width to control spacing */
+		}
+		.shortcut-icon {
+			display: block;
+			cursor: pointer;
+		}
+		.shortcut img {
+			width: 48px;
+			height: 48px;
+			border-radius: 50%;
+			padding: 8px;
+			box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+		}
+		.shortcut span {
+			margin-top: 8px;
+			font-size: 14px;
+		}
+		.dots-btn {
+			position: absolute;
+			top: -5px;
+			right: -5px;
+			display: none;
+			cursor: pointer;
+			font-size: 16px;
+			background: none;
+			border: none;
+		}
+		.shortcut:hover .dots-btn {
+			display: block;
+		}
+		.dropdown-menu {
+			position: absolute;
+			top: 12px;
+			left: 58px;
+			border: 1px solid;
+			border-radius: 4px;
+			box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+			z-index: 10;
+			display: none;
+			min-width: 100px;
+		}
+		.last-in-row .dropdown-menu {
+			left: auto;
+			right: 0px;
+		}
+		.dropdown-menu ul {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+		}
+		.dropdown-menu li {
+			padding: 8px 12px;
+			cursor: pointer;
+		}
+		.add-icon {
+			width: 48px;
+			height: 48px;
+			border-radius: 50%;
+			padding: 8px;
+			box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			font-size: 24px;
+			font-weight: bold;
+			cursor: pointer;
+		}
+		#add-menu {
+			position: absolute;
+			border: 1px solid;
+			border-radius: 4px;
+			box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+			z-index: 10;
+			display: none;
+			min-width: 150px;
+		}
+		#add-menu ul {
+			list-style: none;
+			margin: 0;
+			padding: 0;
+		}
+		#add-menu li {
+			padding: 8px 12px;
+			cursor: pointer;
+		}
+		.divider {
+			height: 1px;
+			background: gray;
+			margin: 5px 0;
+		}
+		dialog {
+			padding: 20px;
+			border-radius: 8px;
+			box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+		}
+		form {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+		}
+		label {
+			text-align: left;
+		}
+		input {
+			padding: 8px;
+			border: 1px solid;
+			border-radius: 4px;
+		}
+		button[type="submit"], button[type="button"] {
+			padding: 10px;
+			border-radius: 4px;
+			cursor: pointer;
+			border: none;
+		}
+		.hidden {
+			display: none;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="search-section">
+			<img id="logo" alt="Search Logo">
+			<form id="search-form" method="get">
+				<input id="search-input" type="text" name="q" placeholder="Search...">
+				<button id="search-btn" type="submit">Search</button>
+			</form>
+		</div>
+		<div id="shortcuts" class="shortcuts"></div>
+	</div>
+
+	<button id="provider-btn">⚙️</button>
+	<div id="provider-menu" class="hidden">
+		<ul>
+			<li data-value="google">Google</li>
+			<li data-value="bing">Bing</li>
+			<li data-value="duckduckgo">DuckDuckGo</li>
+		</ul>
+	</div>
+
+	<dialog id="shortcut-dialog">
+		<form id="shortcut-form">
+			<label for="name">Name:</label>
+			<input id="name" type="text" required>
+			<label for="url">URL:</label>
+			<input id="url" type="url" required>
+			<button type="submit">Save</button>
+			<button id="cancel-btn" type="button">Cancel</button>
+		</form>
+	</dialog>
+
+	<div id="add-menu" class="hidden">
+		<ul>
+			<li id="import-btn">Import</li>
+			<li id="export-btn">Export</li>
+			<div class="divider"></div>
+			<li id="remove-all-btn">Remove All</li>
+		</ul>
+	</div>
+
+	<script>
+		const providers = {
+			google: {
+				url: 'https://www.google.com/search',
+				logo: 'https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png'
+			},
+			bing: {
+				url: 'https://www.bing.com/search',
+				logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Bing_logo_%282016%29.svg/320px-Bing_logo_%282016%29.svg.png'
+			},
+			duckduckgo: {
+				url: 'https://duckduckgo.com/',
+				logo: 'https://duckduckgo.com/assets/logo_header.v108.svg'
+			}
+		};
+
+		const logo = document.getElementById('logo');
+		const searchForm = document.getElementById('search-form');
+		const providerBtn = document.getElementById('provider-btn');
+		const providerMenu = document.getElementById('provider-menu');
+
+		let selectedProvider = localStorage.getItem('selectedProvider') || 'google';
+		updateProvider();
+
+		providerBtn.onclick = (e) => {
+			e.stopPropagation();
+			providerMenu.classList.toggle('hidden');
+		};
+
+		document.querySelectorAll('#provider-menu li').forEach(li => {
+			li.onclick = () => {
+				selectedProvider = li.dataset.value;
+				localStorage.setItem('selectedProvider', selectedProvider);
+				updateProvider();
+				providerMenu.classList.add('hidden');
+			};
+		});
+
+		document.addEventListener('click', (e) => {
+			if (!providerBtn.contains(e.target) && !providerMenu.contains(e.target)) {
+				providerMenu.classList.add('hidden');
+			}
+			document.querySelectorAll('.dropdown-menu').forEach(menu => {
+				if (!menu.contains(e.target) && menu.style.display === 'block') {
+					menu.style.display = 'none';
+				}
+			});
+			const addMenu = document.getElementById('add-menu');
+			if (addMenu && !addMenu.contains(e.target) && addMenu.style.display === 'block') {
+				addMenu.style.display = 'none';
+			}
+		});
+
+		function updateProvider() {
+			const provider = providers[selectedProvider];
+			logo.src = provider.logo;
+			searchForm.action = provider.url;
+		}
+
+		const shortcutsContainer = document.getElementById('shortcuts');
+		const dialog = document.getElementById('shortcut-dialog');
+		const form = document.getElementById('shortcut-form');
+		const nameInput = document.getElementById('name');
+		const urlInput = document.getElementById('url');
+		const cancelBtn = document.getElementById('cancel-btn');
+
+		let shortcuts = JSON.parse(localStorage.getItem('shortcuts')) || [];
+		let currentIndex = -1;
+
+		function renderShortcuts() {
+			shortcutsContainer.innerHTML = '';
+			shortcuts.forEach((shortcut, index) => {
+				const div = document.createElement('div');
+				div.classList.add('shortcut');
+
+				const a = document.createElement('a');
+				a.classList.add('shortcut-icon');
+				a.href = shortcut.url;
+				a.target = '_blank';
+
+				const img = document.createElement('img');
+				img.src = `https://www.google.com/s2/favicons?sz=64&domain=${new URL(shortcut.url).hostname}`;
+				img.alt = shortcut.name;
+
+				a.appendChild(img);
+
+				const span = document.createElement('span');
+				span.textContent = shortcut.name;
+
+				const dotsBtn = document.createElement('button');
+				dotsBtn.classList.add('dots-btn');
+				dotsBtn.textContent = '⋯';
+
+				const dropdown = document.createElement('div');
+				dropdown.classList.add('dropdown-menu');
+
+				const ul = document.createElement('ul');
+
+				const editLi = document.createElement('li');
+				editLi.textContent = 'Edit';
+				editLi.onclick = (e) => {
+					e.stopPropagation();
+					showDialog(index);
+					dropdown.style.display = 'none';
+				};
+
+				const removeLi = document.createElement('li');
+				removeLi.textContent = 'Remove';
+				removeLi.onclick = (e) => {
+					e.stopPropagation();
+					removeShortcut(index);
+					dropdown.style.display = 'none';
+				};
+
+				ul.appendChild(editLi);
+				ul.appendChild(removeLi);
+				dropdown.appendChild(ul);
+
+				dotsBtn.onclick = (e) => {
+					e.preventDefault();
+					e.stopPropagation();
+					document.querySelectorAll('.dropdown-menu').forEach(menu => {
+						if (menu !== dropdown) menu.style.display = 'none';
+					});
+					const addMenu = document.getElementById('add-menu');
+					if (addMenu) addMenu.style.display = 'none';
+					dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+				};
+
+				div.appendChild(a);
+				div.appendChild(span);
+				div.appendChild(dotsBtn);
+				div.appendChild(dropdown);
+				shortcutsContainer.appendChild(div);
+			});
+
+			if (shortcuts.length < 40) {
+				const addDiv = document.createElement('div');
+				addDiv.classList.add('shortcut');
+
+				const addIcon = document.createElement('div');
+				addIcon.classList.add('add-icon');
+				addIcon.textContent = '+';
+				addIcon.onclick = () => showDialog();
+
+				addIcon.oncontextmenu = (e) => {
+					e.preventDefault();
+					const addMenu = document.getElementById('add-menu');
+					if (addMenu) {
+						document.querySelectorAll('.dropdown-menu').forEach(menu => {
+							menu.style.display = 'none';
+						});
+						addMenu.style.top = `${e.pageY}px`;
+						addMenu.style.left = `${e.pageX}px`;
+						addMenu.style.display = 'block';
+					}
+				};
+
+				const addSpan = document.createElement('span');
+				addSpan.textContent = 'Add';
+
+				addDiv.appendChild(addIcon);
+				addDiv.appendChild(addSpan);
+				shortcutsContainer.appendChild(addDiv);
+			}
+
+			const shortcutItems = shortcutsContainer.children;
+			let currentRowTop = -1;
+			let currentRow = [];
+			for (let item of shortcutItems) {
+				if (item.offsetTop !== currentRowTop) {
+					if (currentRow.length > 0) {
+						currentRow[currentRow.length - 1].classList.add('last-in-row');
+					}
+					currentRow = [item];
+					currentRowTop = item.offsetTop;
+				} else {
+					currentRow.push(item);
+				}
+			}
+			if (currentRow.length > 0) {
+				currentRow[currentRow.length - 1].classList.add('last-in-row');
+			}
+		}
+
+		function showDialog(index = -1) {
+			currentIndex = index;
+			if (index >= 0) {
+				const shortcut = shortcuts[index];
+				nameInput.value = shortcut.name;
+				urlInput.value = shortcut.url;
+				form.querySelector('button[type="submit"]').textContent = 'Update';
+			} else {
+				nameInput.value = '';
+				urlInput.value = 'https://';
+				form.querySelector('button[type="submit"]').textContent = 'Add';
+			}
+			dialog.showModal();
+		}
+
+		form.onsubmit = (e) => {
+			e.preventDefault();
+			const name = nameInput.value.trim();
+			const url = urlInput.value.trim();
+			if (!name || !url) return;
+			if (currentIndex >= 0) {
+				shortcuts[currentIndex] = { name, url };
+			} else {
+				shortcuts.push({ name, url });
+			}
+			saveShortcuts();
+			renderShortcuts();
+			dialog.close();
+		};
+
+		cancelBtn.onclick = () => dialog.close();
+
+		function removeShortcut(index) {
+			if (confirm('Remove this shortcut?')) {
+				shortcuts.splice(index, 1);
+				saveShortcuts();
+				renderShortcuts();
+			}
+		}
+
+		function saveShortcuts() {
+			localStorage.setItem('shortcuts', JSON.stringify(shortcuts));
+		}
+
+		const addMenu = document.getElementById('add-menu');
+		document.getElementById('import-btn').onclick = () => {
+			const json = prompt('Paste shortcuts JSON:');
+			if (json) {
+				try {
+					shortcuts = JSON.parse(json);
+					saveShortcuts();
+					renderShortcuts();
+				} catch (err) {
+					alert('Invalid JSON.');
+				}
+			}
+			addMenu.style.display = 'none';
+		};
+
+		document.getElementById('export-btn').onclick = () => {
+			navigator.clipboard.writeText(JSON.stringify(shortcuts)).then(() => {
+				alert('Shortcuts JSON copied to clipboard.');
+			}).catch(err => {
+				alert('Failed to copy.');
+			});
+			addMenu.style.display = 'none';
+		};
+
+		document.getElementById('remove-all-btn').onclick = () => {
+			if (confirm('Are you sure you want to remove all shortcuts?')) {
+				shortcuts = [];
+				saveShortcuts();
+				renderShortcuts();
+			}
+			addMenu.style.display = 'none';
+		};
+
+		renderShortcuts();
+	</script>
+</body>
+</html>
