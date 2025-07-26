@@ -17,5 +17,5 @@
 <p align="center">Click the gear icon on the top right of the page to switch default search providers</p>
 <p align="center"><img src="https://github.com/illsk1lls/QuickLaunchHome/blob/main/.readme/duckduckgo.png?raw=true"></p><br><br>
 
-<p align="center">Up to 40 quicklaunch shorcuts can be added</p>
+<p align="center">Up to 40 quicklaunch shortcuts can be added</p>
 <p align="center"><img src="https://github.com/illsk1lls/QuickLaunchHome/blob/main/.readme/full.png?raw=true"></p>
